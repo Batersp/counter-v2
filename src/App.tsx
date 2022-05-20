@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import {Counter} from "./components/Counter";
+import {NewCount} from "./components/NewCount";
+import {NewSettings} from "./components/NewSettings";
+import {Buttons} from "./components/Buttons";
 
 function App() {
 
@@ -39,22 +41,33 @@ function App() {
         setShowNumber(true)
         setCounterMode(!counterMode)
     }
-
     return (
         <div className="App">
-            <Counter
-                number={number}
-                increaseNumber={increaseNumber}
-                resetNumber={resetNumber}
-                maxValue={maxValue}
-                startValue={startValue}
-                showNumber={showNumber}
-                setSettings={setSettings}
-                counterMode={counterMode}
-                setMaxValue={setMaxValue}
-                setStartValue={setStartValue}
-                setShowNumber={setShowNumber}
-            />
+            <div className='main'>
+                {!counterMode ?
+                    <NewCount startValue={startValue}
+                              maxValue={maxValue}
+                              number={number}
+                              showNumber={showNumber}
+                    />
+                    :
+                    <NewSettings startValue={startValue}
+                                 maxValue={maxValue}
+                                 setMaxValue={setMaxValue}
+                                 setStartValue={setStartValue}
+                                 setShowNumber={setShowNumber}
+                    />
+                }
+                <Buttons number={number}
+                         maxValue={maxValue}
+                         startValue={startValue}
+                         showNumber={showNumber}
+                         increaseNumber={increaseNumber}
+                         resetNumber={resetNumber}
+                         setSettings={setSettings}
+                         counterMode={counterMode}
+                />
+            </div>
         </div>
     );
 }
