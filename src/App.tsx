@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Counter} from "./components/Counter";
-import {Settings} from "./components/Settings";
 
 function App() {
 
@@ -9,6 +8,7 @@ function App() {
     const [startValue, setStartValue] = useState(0)      // стартовое значение в setting
     const [number, setNumber] = useState<number>(startValue)      // число которое увеличивается в counter
     const [showNumber, setShowNumber] = useState(true) //не могу менять счетчик на текст ( 2 варианта)
+    const [counterMode, setCounterMode] = useState(true)
 
     useEffect(() => {
         let maxValueFromLS = localStorage.getItem('maxValue')
@@ -37,6 +37,7 @@ function App() {
     const setSettings = () => {  // что происходит при нажатии на кнопку set
         setNumber(startValue)
         setShowNumber(true)
+        setCounterMode(!counterMode)
     }
 
     return (
@@ -48,15 +49,10 @@ function App() {
                 maxValue={maxValue}
                 startValue={startValue}
                 showNumber={showNumber}
-            />
-
-            <Settings
-                maxValue={maxValue}
-                startValue={startValue}
+                setSettings={setSettings}
+                counterMode={counterMode}
                 setMaxValue={setMaxValue}
                 setStartValue={setStartValue}
-                setSettings={setSettings}
-                showNumber={showNumber}
                 setShowNumber={setShowNumber}
             />
         </div>

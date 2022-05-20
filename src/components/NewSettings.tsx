@@ -1,17 +1,14 @@
 import React, {ChangeEvent} from "react";
-import {Button} from "./Button";
 
-export type SettingsPropsType = {
-    maxValue: number
+type NewSettingsPropsType = {
     startValue: number
-    showNumber: boolean
-    setMaxValue: (newValue: number) => void
-    setStartValue: (newValue: number) => void
-    setSettings: () => void
-    setShowNumber: (v: boolean) => void
+    maxValue: number
+    setMaxValue: (n:number) => void
+    setShowNumber: (n: boolean) => void
+    setStartValue: (n: number ) => void
 }
 
-export const Settings = (props: SettingsPropsType) => {
+export const NewSettings = (props: NewSettingsPropsType) => {
 
     const inputClass = props.maxValue === props.startValue || props.maxValue < 0 || props.startValue < 0 || props.startValue > props.maxValue ? 'error' : ''
 
@@ -25,14 +22,7 @@ export const Settings = (props: SettingsPropsType) => {
         props.setShowNumber(false)
     }
 
-    const callBackHandler = () => {
-        props.setSettings()
-    }
-
-    const setDisabled = props.showNumber || props.maxValue === props.startValue || props.startValue < 0 || props.maxValue < 0 || props.startValue > props.maxValue
-
     return (
-        <div className='settings'>
             <div className='inputs'>
                 <div className='input'>
                     max value: <input
@@ -51,13 +41,5 @@ export const Settings = (props: SettingsPropsType) => {
                 />
                 </div>
             </div>
-            <div className='settingBtn'>
-                <Button name={'set'}
-                        callBack={callBackHandler}
-                        disabled={setDisabled}
-                        ClassName='setbtn'
-                />
-            </div>
-        </div>
     )
 }

@@ -1,5 +1,7 @@
 import React from "react";
-import {Button} from "./Button";
+import {Buttons} from "./Buttons";
+import {NewCount} from "./NewCount";
+import {NewSettings} from "./NewSettings";
 
 export type CounterPropsType = {
     number: number
@@ -8,31 +10,41 @@ export type CounterPropsType = {
     showNumber: boolean
     increaseNumber: () => void
     resetNumber: () => void
+    setSettings: () => void
+    counterMode: boolean
+    setMaxValue: (n: number) => void
+    setStartValue: (n: number) => void
+    setShowNumber: (n: boolean) => void
 }
 
 export const Counter = (props: CounterPropsType) => {
 
-    const textForCounter = props.maxValue === props.startValue || props.maxValue < 0 || props.startValue < 0 || props.startValue > props.maxValue ? 'error' : 'enter your settings'
-
-    const numberClass = props.maxValue === props.number || props.maxValue === props.startValue || props.maxValue < 0 || props.startValue < 0 || props.startValue > props.maxValue ? 'count red' : 'count'
-
-    const classForCounter = textForCounter === 'enter your settings' && !props.showNumber ? 'count' : numberClass
-
-    const incDisabled = props.number === props.maxValue || !props.showNumber || props.startValue < 0 || props.startValue > props.maxValue;
-
-    const resDisabled = props.number === props.startValue || !props.showNumber;
-
     return (
-        <div className='counter'>
-            <div
-                className={classForCounter}>{props.showNumber && props.startValue >= 0 && props.maxValue !== props.startValue && props.startValue < props.maxValue
-                ? props.number
-                : textForCounter
-            }</div>
-            <div className='counterBtn'>
-                <div><Button ClassName='btn' name={'inc'} callBack={props.increaseNumber} disabled={incDisabled}/></div>
-                <div><Button ClassName='btn' name={'res'} callBack={props.resetNumber} disabled={resDisabled}/></div>
+            <div className='main'>
+                 {!props.counterMode ?
+                    <NewCount startValue={props.startValue}
+                              maxValue={props.maxValue}
+                              number={props.number}
+                              showNumber={props.showNumber}
+                    />
+                    :
+                    <NewSettings startValue={props.startValue}
+                                 maxValue={props.maxValue}
+                                 setMaxValue={props.setMaxValue}
+                                 setStartValue={props.setStartValue}
+                                 setShowNumber={props.setShowNumber}
+                    />
+                }
+
+                <Buttons number={props.number}
+                         maxValue={props.maxValue}
+                         startValue={props.startValue}
+                         showNumber={props.showNumber}
+                         increaseNumber={props.increaseNumber}
+                         resetNumber={props.resetNumber}
+                         setSettings={props.setSettings}
+                         counterMode={props.counterMode}
+                />
             </div>
-        </div>
     )
 }
