@@ -1,26 +1,28 @@
 import React from "react";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../state/store";
 
-type NewCountPropsType = {
-    startValue: number
-    maxValue: number
-    number: number
-    showNumber: boolean
-}
 
-export const NewCount = (props: NewCountPropsType) => {
+export const NewCount = React.memo(() => {
 
-    const textForCounter = props.maxValue === props.startValue || props.maxValue < 0 || props.startValue < 0 || props.startValue > props.maxValue ? 'error' : 'enter your settings'
+    let startValue = useSelector<AppRootStateType, number>(state => state.count.startValue)
+    let maxValue = useSelector<AppRootStateType, number>(state => state.count.maxValue)
+    let number = useSelector<AppRootStateType, number>(state => state.count.number)
+    let showNumber = useSelector<AppRootStateType, boolean>(state => state.count.showNumber)
 
-    const numberClass = props.maxValue === props.number || props.maxValue === props.startValue || props.maxValue < 0 || props.startValue < 0 || props.startValue > props.maxValue ? 'count red' : 'count'
 
-    const classForCounter = textForCounter === 'enter your settings' && !props.showNumber ? 'count' : numberClass
+    const textForCounter = maxValue === startValue || maxValue < 0 || startValue < 0 || startValue > maxValue ? 'error' : 'enter your settings'
+
+    const numberClass = maxValue === number || maxValue === startValue || maxValue < 0 || startValue < 0 || startValue > maxValue ? 'count red' : 'count'
+
+    const classForCounter = textForCounter === 'enter your settings' && !showNumber ? 'count' : numberClass
 
     return (
 
         <div
-            className={classForCounter}>{props.showNumber && props.startValue >= 0 && props.maxValue !== props.startValue && props.startValue < props.maxValue
-            ? props.number
+            className={classForCounter}>{showNumber && startValue >= 0 && maxValue !== startValue && startValue < maxValue
+            ? number
             : textForCounter
         }</div>
     )
-}
+})

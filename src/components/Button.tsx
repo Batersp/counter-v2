@@ -6,11 +6,11 @@ export type ButtonPropsType = {
     disabled: boolean
     ClassName: string
 }
-export const Button = (props: ButtonPropsType) => {
+export const Button = React.memo((props: ButtonPropsType) => {
     const onClickHandler = () => {
         props.callBack()
     }
     return (
         <button className={props.ClassName} disabled={props.disabled} onClick={onClickHandler}>{props.name}</button>
     )
-}
+})

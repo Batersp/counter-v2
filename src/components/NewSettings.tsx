@@ -1,45 +1,45 @@
 import React, {ChangeEvent} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../state/store";
+import {maxValueChangeAC, setShowNumberAC, startValueChangeAC} from "../state/count-reducer";
 
-type NewSettingsPropsType = {
-    startValue: number
-    maxValue: number
-    setMaxValue: (n: number) => void
-    setShowNumber: (n: boolean) => void
-    setStartValue: (n: number) => void
-}
 
-export const NewSettings = (props: NewSettingsPropsType) => {
+export const NewSettings = React.memo(() => {
 
-    const inputClass = props.maxValue === props.startValue || props.maxValue < 0 || props.startValue < 0 || props.startValue > props.maxValue ? 'error' : ''
+    let startValue = useSelector<AppRootStateType, number>(state => state.count.startValue)
+    let maxValue = useSelector<AppRootStateType, number>(state => state.count.maxValue)
+    const dispatch = useDispatch()
 
-    const onMaxValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setMaxValue(parseInt(e.currentTarget.value))
-        props.setShowNumber(false)
+    const inputClass = maxValue === startValue || maxValue < 0 || startValue < 0 || startValue > maxValue ? 'error' : ''
+
+    const MaxValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(maxValueChangeAC(+e.currentTarget.value))
+        dispatch(setShowNumberAC(false))
     }
 
-    const onStartValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setStartValue(parseInt(e.currentTarget.value))
-        props.setShowNumber(false)
+    const startValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(startValueChangeAC(+e.currentTarget.value))
+        dispatch(setShowNumberAC(false))
     }
 
     return (
         <div className='inputs'>
             <div className='input'>
                 max value: <input
-                value={props.maxValue}
+                value={maxValue}
                 type='number'
-                onChange={onMaxValueChangeHandler}
+                onChange={MaxValueChange}
                 className={inputClass}
             />
             </div>
             <div className='input'>
                 start value: <input
-                value={props.startValue}
+                value={startValue}
                 type='number'
-                onChange={onStartValueChangeHandler}
+                onChange={startValueChange}
                 className={inputClass}
             />
             </div>
         </div>
     )
-}
+})
